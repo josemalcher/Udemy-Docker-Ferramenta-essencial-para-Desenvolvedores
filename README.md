@@ -32,6 +32,37 @@ https://www.udemy.com/curso-docker/learn/v4/overview
 
 ## <a name="parte2"> Seção: 2 - Conceitos (6)</a>
 
+#### 1.1. O que é Docker?
+
+É uma ferramenta que se apoia em recursos existentes no kernel, inicialmente Linux, para isolar a execução de processos. As ferramentas que o Docker traz são basicamente uma camada de administração de containers, baseado originalmente no LXC.
+
+Alguns isolamentos possíveis:
+- Limites de uso de memória
+- Limites de uso de CPU
+- Limites de uso de I/O
+- Limites de uso de rede
+- Isolamento da rede (que redes e portas são acessíveis)
+- Isolamento do file system
+- Permissões e Políticas
+- Capacidades do kernel
+
+Podemos concluir dizendo que estes recursos já existiam no kernel a um certo tempo, o que o Docker nos trouxe foi uma maneira simples e efetiva de utiliza-los.
+- https://www.docker.com/what-docker
+
+Containers Docker empacotam componentes de software em um sistema de arquivos completo, que contêm tudo necessário para a execução: código, runtime, ferramentas de sistema - qualquer coisa que possa ser instalada em um servidor.
+
+Isto garante que o software sempre irá executar da mesma forma, independente do seu ambiente.
+
+####1.2. Por que não uma VM?
+
+####1.3. O que são containers?
+
+####1.4. O que são imagens Docker ?
+
+####1.5. Arquitetura
+
+####1.6. Crescimento do Docker
+
 
 
 [Voltar ao Índice](#indice)
