@@ -53,15 +53,30 @@ Containers Docker empacotam componentes de software em um sistema de arquivos co
 
 Isto garante que o software sempre irá executar da mesma forma, independente do seu ambiente.
 
-####1.2. Por que não uma VM?
+#### 1.2. Por que não uma VM?
 
-####1.3. O que são containers?
+O Docker tende a utilizar menos recursos que uma VM tradicional, um dos motivos é não precisar de uma pilha completa como vemos em Comparação VMs × Containers. O Docker utiliza o mesmo
+kernel do host, e ainda pode compartilhar bibliotecas.
 
-####1.4. O que são imagens Docker ?
+Mesmo utilizando o mesmo kernel é possível utilizar outra distribuição com versões diferentes das bibliotecas e aplicativos.
 
-####1.5. Arquitetura
+![](img/1-2-Por-que-nao-uma-VM.png)
 
-####1.6. Crescimento do Docker
+Figura 1. Comparação VMs × Containers
+
+Virtual Machine (máquina virtual), recurso extremamente usado atualmente para isolamento de serviços, replicação e melhor aproveitamento do poder de processamente de uma máquina física.
+
+Devo trocar então minha VM por um container? Nem sempre, os containers Docker possuem algumas limitações em relação as VMs:
+- Todas as imagens são linux, apesar do host poder ser qualquer SO que use ou emule um kernel linux, as imagens em si serão baseadas em linux.
+- Não é possível usar um kernel diferente do host, o Docker Engine estará executando sob uma determinada versão (ou emulação) do kernel linux, e não é possível executar uma versão diferente, pois as imagens não possuem kernel.
+
+#### 1.3. O que são containers?
+
+#### 1.4. O que são imagens Docker ?
+
+#### 1.5. Arquitetura
+
+#### 1.6. Crescimento do Docker
 
 
 
