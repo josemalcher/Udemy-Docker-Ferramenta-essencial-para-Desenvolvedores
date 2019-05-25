@@ -72,6 +72,16 @@ Devo trocar então minha VM por um container? Nem sempre, os containers Docker p
 
 #### 1.3. O que são containers?
 
+Container é o nome dado para a segregação de processos no mesmo kernel, de forma que o processo seja isolado o máximo possível de todo o resto do ambiente.
+
+Em termos práticos são File Systems, criados a partir de uma "imagem" e que podem possuir também algumas características próprias.
+
+![](img/1-3-O-que-sao-containers.png)
+
+- https://www.docker.com/what-container
+
+
+
 #### 1.4. O que são imagens Docker ?
 
 #### 1.5. Arquitetura
