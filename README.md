@@ -138,7 +138,27 @@ Nestes 4 anos ele tem se tornado cada vez mais popular e uma solução real para
 
 ## <a name="parte4"> Seção: 4 - Uso Básico do Docker (14)</a>
 
+#### 3.1. Introdução ao Docker Client
 
+Conforme vimos em Arquitetura, o Docker Engine expõe uma API Rest que pode ser consumida pelas mais diversas ferramentas. A ferramenta inicial fornecida com a própria engine é o Docker Client, utilitário de linha de comando.
+
+#### 3.2. Hello World: Meu Docker funciona !
+
+#### 3.3. Meu querido amigo run
+
+#### 3.4. Modo interativo
+
+#### 3.5. Cego, surdo e mudo, só que não !
+
+#### 3.5.1. Mapeamento de portas
+
+#### 3.5.2. Mapeamento de volumes
+
+#### 3.6. Modo daemon
+
+#### 3.7. Manipulação de containers em modo daemon
+
+#### 3.8. Nova sintaxe do Docker Client
 
 [Voltar ao Índice](#indice)
 
