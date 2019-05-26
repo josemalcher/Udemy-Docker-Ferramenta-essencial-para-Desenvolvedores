@@ -566,6 +566,29 @@ Deleted: sha256:6270adb5794c6987109e54af00ab456977c5d5cc6f1bc52cce58d32ec0f15f4
 
 #### 4.4. Comandos básicos no gerenciamento de imagens
 
+Já usamos de maneira implícita o recurso de download de imagens docker, agora vamos entender melhor o gerenciamento de imagens.
+
+**docker image pull <tag>**  
+Baixa a imagem solicitada, este comando pode ser executado implicitamente, quando o docker precisa de uma imagem para outra operação e não consegue localiza-la no cache local.
+
+**docker image ls**  
+Lista todas as imagens já baixadas, é possível ainda usar a sintaxe antiga: docker images
+
+**docker image rm <tag>**  
+Remove uma imagem do cache local, é possível ainda usar a sintaxe antiga: docker rmi <tag>
+
+**docker image inspect <tag>**  
+Extrai diversas informações utilizando um formato JSON da imagem indicada.
+
+**docker image tag <source> <tag>**  
+Cria uma nova tag baseada em uma tag anterior ou hash.
+
+**docker image build -t <tag>**  
+Permite a criação de uma nova imagem, como veremos melhor em build.
+
+**docker image push <tag>**  
+Permite o envio de uma imagem ou tag local para um registry.
+
 #### 4.5. Docker Hub × Docker Registry
 
 #### 4.6. Construção de uma imagem
