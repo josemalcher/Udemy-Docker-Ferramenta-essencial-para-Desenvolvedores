@@ -868,6 +868,23 @@ Por último temos o comando VOLUME que instrui o docker a expor o diretório /lo
 - Importante substituir a referência do volumes_from pelo hash do primeiro container criado
 - O resultado do cat será o mesmo log já gerado pelo primeiro container
 
+#### 11. Enviar Imagens para o Docker Hub (video)
+
+- https://hub.docker.com/
+
+```
+# docker image tag img-exemplo josemalcher/img-exemplo:1.0
+
+// Login
+# docker login --username=josemalcher
+Password:
+
+# docker image push josemalcher/img-exemplo:1.0
+
+```
+
+```
+```
 
 [Voltar ao Índice](#indice)
 
