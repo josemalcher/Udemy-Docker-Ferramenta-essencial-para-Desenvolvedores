@@ -335,6 +335,14 @@ fc8c3355fa81        debian              "bash"              8 minutes ago       
 
 #### 3.5. Cego, surdo e mudo, só que não !
 
+Um container normalmente roda com o máximo de isolamento possível do host, este isolamento é possível através do Docker Engine e diversas características provídas pelo kernel.
+
+Mas normalmente não queremos um isolamento total, e sim um isolamento controlado, em que os recursos que o container terá acesso são explicitamente indicados. Principais recursos de controle do isolamento
+- Mapeamento de portas
+- Mapeamento de volumes
+- Copia de arquivos para o container ou a partir do container
+- Comunicação entre os containers
+
 #### 3.5.1. Mapeamento de portas
 
 #### 3.5.2. Mapeamento de volumes
