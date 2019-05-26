@@ -640,6 +640,82 @@ O comando build exige a informação do diretório aonde o build será executado
 
 #### 4.7. Instruções para a preparação da imagem
 
+**FROM**  
+Especifica a imagem base a ser utilizada pela nova imagem.
+
+**LABEL**  
+Especifica vários metadados para a imagem como o mantenedor. A especificação do mantenedor era feita usando a instrução específica, MAINTAINER que foi substituída pelo LABEL.
+
+**ENV**  
+Especifica variáveis de ambiente a serem utilizadas durante o build.
+
+**ARG**  
+Define argumentos que poderão ser informados ao build através do parâmetro --build-arg.
+
+```
+FROM debian
+LABEL maintainer 'José Malcher JR. <contato@josmealcher.net>'
+
+ARG S3_BUCKET=files
+
+ENV S3_BUCKET=${S3_BUCKET}
+```
+
+```
+# docker image build -t ex-build-args .
+Sending build context to Docker daemon 2.048 kB
+Step 1/4 : FROM debian
+ ---> 8d31923452f8
+Step 2/4 : LABEL maintainer 'José Malcher JR. <contato@josmealcher.net>'
+ ---> Running in 2e1d1abdb42f
+ ---> 18fb06e515ee
+Removing intermediate container 2e1d1abdb42f
+Step 3/4 : ARG S3_BUCKET=files
+ ---> Running in 71356b724391
+ ---> 2d6c5a0dc217
+Removing intermediate container 71356b724391
+Step 4/4 : ENV S3_BUCKET ${S3_BUCKET}
+ ---> Running in 6d5d5cfd0a7f
+ ---> 15b5f8cb0069
+Removing intermediate container 6d5d5cfd0a7f
+Successfully built 15b5f8cb0069
+
+# docker image ls
+REPOSITORY                           TAG                 IMAGE ID            CREATED             SIZE
+ex-build-args                        latest              15b5f8cb0069        14 seconds ago      101 MB
+ex-simple-build                      latest              74f08697b0a1        12 minutes ago      109 MB
+
+# docker container run ex-
+ex-build-args           ex-build-args:latest    ex-simple-build         ex-simple-build:latest  
+
+# docker container run ex-build-args bash -c 'echo $S3_BUCKET'
+files
+
+# docker image build --build-arg S3_BUCKET=myapp -t ex-build-arg .
+Sending build context to Docker daemon 2.048 kB
+Step 1/4 : FROM debian
+ ---> 8d31923452f8
+Step 2/4 : LABEL maintainer 'José Malcher JR. <contato@josmealcher.net>'
+ ---> Using cache
+ ---> 18fb06e515ee
+Step 3/4 : ARG S3_BUCKET=files
+ ---> Using cache
+ ---> 2d6c5a0dc217
+Step 4/4 : ENV S3_BUCKET ${S3_BUCKET}
+ ---> Running in 0f2ada1bff1d
+ ---> 39864b012f1a
+Removing intermediate container 0f2ada1bff1d
+Successfully built 39864b012f1a
+
+# docker container run ex-build-arg bash -c 'echo $S3_BUCKET'
+myapp
+
+
+# docker image inspect --format="{{index .Config.Labels \"maintainer\"}}" ex-build-args
+José Malcher JR. <contato@josmealcher.net>
+
+```
+
 #### 4.8. Instruções para povoamento da imagem
 
 #### 4.9. Instruções com configuração para execução do container
