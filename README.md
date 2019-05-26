@@ -112,7 +112,11 @@ Figura 2. Arquitetura do Docker
 
 #### 1.6. Crescimento do Docker
 
+A primeira versão do Docker é de 13 de março de 2013, tendo um pouco mais de 4 anos (na epóca que este curso foi escrito).
 
+Nestes 4 anos ele tem se tornado cada vez mais popular e uma solução real para desenvolvedores (manter o seu ambiente mais simples e próximo à produção), administradores de sistema e ultimamente para uso enterprise, sendo avaliado pelos principais players do mercado uma alternativa mais econômica em relação as soluções atuais. Em sua maioria virtualização.
+
+![](img/1-6-Crescimento-do-Docker.png)
 
 [Voltar ao Índice](#indice)
 
