@@ -345,6 +345,24 @@ Mas normalmente não queremos um isolamento total, e sim um isolamento controlad
 
 #### 3.5.1. Mapeamento de portas
 
+É possível mapear tanto portas TCP como UDP diretamente para o host, permitindo acesso através de toda a rede, não necessitando ser a mesma porta do container. O método mais comum para este fim é o parâmetro -p no comando docker container run, o -p recebe um parâmetro que normalmente é composto por dois números separados por : (dois pontos). O primeiro é no host e o segundo é no container
+
+```
+# docker container run -p 8080:80 nginx
+172.17.0.1 - - [26/May/2019:02:31:00 +0000] "GET / HTTP/1.1" 200 612 "-" "Mozilla/5.0 (X11; Fedora; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36" "-"
+2019/05/26 02:31:01 [error] 9#9: *1 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+172.17.0.1 - - [26/May/2019:02:31:01 +0000] "GET /favicon.ico HTTP/1.1" 404 556 "http://localhost:8080/" "Mozilla/5.0 (X11; Fedora; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36" "-"
+
+```
+
+Mapeamento de portas
+- Acessar a url http://localhost:8080 por um browser
+- Receber a mensagem: Welcome to nginx no browser
+- Verificar o log de acesso no terminal executando
+- Tentar acessar a url http://localhost ou http://localhost:80
+- Receber um erro do browser
+- Parar a execução do container
+
 #### 3.5.2. Mapeamento de volumes
 
 #### 3.6. Modo daemon
