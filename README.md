@@ -365,6 +365,35 @@ Mapeamento de portas
 
 #### 3.5.2. Mapeamento de volumes
 
+É possível mapear tanto diretórios no host como entidades especiais conhecidas como volumes para diretórios no container. Por enquanto vamos nos concentrar no mapeamento mais simples, uma diretório no host para um diretório no container. O método mais comum para este fim é o parâmetro -v no comando docker container run, o -v recebe um parâmetro que normalmente é composto por dois caminhos absolutos separados por : (dois pontos). Assim como diversos outros parâmetros, o primeiro é no host e o segundo é no container.
+
+**Exercício 7 - Mapear diretórios para o container**
+
+```
+# docker container run -p 8080:80 -v $(pwd)/html:/usr/share/nginx/html nginx
+2019/05/26 02:44:49 [error] 9#9: *2 "/usr/share/nginx/html/index.html" is forbidden (13: Permission denied), client: 172.17.0.1, server: localhost, request: "GET / HTTP/1.1", host: "localhost:8080"
+172.17.0.1 - - [26/May/2019:02:44:49 +0000] "GET / HTTP/1.1" 403 556 "-" "Mozilla/5.0 (X11; Fedora; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36" "-"
+
+# docker container run -p 8080:80 -v $(pwd)/html:/usr/share/nginx/html:Z nginx
+172.17.0.1 - - [26/May/2019:02:46:37 +0000] "GET / HTTP/1.1" 200 287 "-" "Mozilla/5.0 (X11; Fedora; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36" "-"
+
+```
+
+*(:Z dá permissão de escrita a pasta) 👈
+
+Mapeamento de volumes
+- Executar o run.sh
+- Acessar a url http://localhost:8080 por um browser
+- Receber o erro: 403 Forbidden
+- Verificar o log de acesso no terminal executando
+- Parar a execução do container
+- Executar o run-alt.sh (que mapea o diretório com o index.html)
+- Tentar acessar a url http://localhost:8080
+- Receber o texto: Hello World
+- Bônus: Editar o html/index.html a partir de um editor de textos e atualizar o browser
+- Parar a execução do container
+
+
 #### 3.6. Modo daemon
 
 #### 3.7. Manipulação de containers em modo daemon
