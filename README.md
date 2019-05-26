@@ -718,6 +718,51 @@ José Malcher JR. <contato@josmealcher.net>
 
 #### 4.8. Instruções para povoamento da imagem
 
+**COPY**  
+Copia arquivos e diretórios para dentro da imagem.
+
+**ADD**  
+Similar ao anterior, mas com suporte extendido a URLs. Somente deve ser usado nos casos que a instrução COPY não atenda.
+
+**RUN**  
+Executa ações/comandos durante o build dentro da imagem
+
+**Exercício 12 - Uso das instruções de povoamento**
+
+```
+FROM nginx:1.13
+
+LABEL maintainer 'Juracy Filho <juracy at gmail.com>'
+
+RUN echo '<h1>Sem conteúdo</h1>' > /usr/share/nginx/html/conteudo.html
+
+COPY *.html /usr/share/nginx/html/
+```
+
+```
+# docker image build -t ex-build-copy .
+Sending build context to Docker daemon 3.072 kB
+Step 1/4 : FROM nginx:1.13
+ ---> ae513a47849c
+Step 2/4 : LABEL maintainer 'Juracy Filho <juracy at gmail.com>'
+ ---> Running in 4337afa75bcb
+ ---> f8ad9d783051
+Removing intermediate container 4337afa75bcb
+Step 3/4 : RUN echo '<h1>Sem conteúdo</h1>' > /usr/share/nginx/html/conteudo.html
+ ---> Running in 0b73ce0e4f4d
+ ---> 866f35b5f3c3
+Removing intermediate container 0b73ce0e4f4d
+Step 4/4 : COPY *.html /usr/share/nginx/html/
+ ---> 059bd79f28c5
+Removing intermediate container 84db0a1f5fa5
+Successfully built 059bd79f28c5
+
+# docker container run -p 8080:80 ex-build-copy
+
+```
+
+
+
 #### 4.9. Instruções com configuração para execução do container
 
 
