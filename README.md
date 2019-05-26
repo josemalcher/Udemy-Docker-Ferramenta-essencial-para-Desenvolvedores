@@ -458,6 +458,20 @@ Vários comandos Docker possuem aliases, por exemplo o container ls tem os segui
 
 #### 3.8. Nova sintaxe do Docker Client
 
+Agora que já vimos diversos comandos, incluindo tanto a sintaxe nova quanto a velha, podemos entender os principais motivos para esta mudança e a preferência pela nova sintaxe:
+- Melhor utilização de comandos similares em contextos diferentes:
+  - docker container ls
+  - docker image ls
+  - docker volume ls
+- Maior clareza nos comandos:
+  - docker container rm ao invés de docker rm
+  - docker image rm ao inveś de docker rmi
+  - docker image ls ao invés de docker images
+- Mais simplicidade para criação de novos subcomandos
+ - Segregação da documentação e helps por contexto
+
+
+
 [Voltar ao Índice](#indice)
 
 ---
