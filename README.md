@@ -179,6 +179,32 @@ Testar correto funcionamento do Docker, incluindo a recuperação de imagens e e
 
 #### 3.3. Meu querido amigo run
 
+O comando run é a nossa porta de entrada no Docker, agrupando diversas funcionalidades básicas, como:
+- Download automático das imagens não encontradas: docker image pull
+- Criação do container: docker container create
+- Execução do container: docker container start
+- Uso do modo interativo: docker container exec
+
+A partir da versão 1.13, o Docker reestruturou toda a interface da linha de comando, para agrupar melhor os comandos por contexto.
+
+Apesar dos comandos antigos continuarem válidos, o conselho geral é adotar a nova sintaxe.
+- https://blog.docker.com/2017/01/whats-new-in-docker-1-13/#h.yuluxi90h1om
+
+Até a versão 17.03 (corrente na publicação do curso), ainda é possível utilizarmos a sintaxe antiga, porém precisamos pensar nela como atalhos:
+
+```
+docker pull
+    docker image pull
+docker create
+    docker container create
+docker start
+    docker container start
+docker exec
+    docker container exec
+```
+
+
+
 #### 3.4. Modo interativo
 
 #### 3.5. Cego, surdo e mudo, só que não !
