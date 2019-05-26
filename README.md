@@ -765,6 +765,109 @@ Successfully built 059bd79f28c5
 
 #### 4.9. Instruções com configuração para execução do container
 
+**EXPOSE**  
+Informa ao Docker que a imagem expõe determinadas portas remapeadas no container. A exposição da porta não é obrigatória a partir do uso do recurso de redes internas do Docker. Recurso que veremos em Coordenando múltiplos containers. Porém a exposição não só ajuda a documentar como permite o mapeamento rápido através do parâmetro -P do docker container run.
+
+**WORKDIR**  
+Indica o diretório em que o processo principal será executado.
+
+**ENTRYPOINT**  
+Especifica o processo inicial do container.
+
+**CMD**  
+Indica parâmetros para o ENTRYPOINT.
+
+**USER**  
+Especifica qual o usuário que será usado para execução do processo no container (ENTRYPOINT e CMD) e instruções RUN durante o build.
+
+**VOLUME**  
+Instrui a execução do container a criar um volume para um diretório indicado e copia todo o conteúdo do diretório na imagem para o volume criado. Isto simplificará no futuro, processos de compartilhamento destes dados para backup por exemplo.
+
+**Exercício 13 - Uso das instruções para execução do container**
+
+```
+FROM python:3.6
+LABEL maintainer 'José Malcher JR. <contato@josemalcher.net>'
+
+RUN useradd www && \
+    mkdir /app && \
+    mkdir /log && \
+    chown www /log
+
+USER www
+VOLUME /log
+WORKDIR /app
+EXPOSE 8000
+
+ENTRYPOINT ["/usr/local/bin/python"]
+CMD ["run.py"]
+```
+
+
+```
+# docker image build -t ex-build-dev .
+Sending build context to Docker daemon 4.608 kB
+Step 1/9 : FROM python:3.6
+ ---> 0668df180a32
+Step 2/9 : LABEL maintainer 'José Malcher JR. <contato@josemalcher.net>'
+ ---> Running in 19f20a99d55d
+ ---> f56494948963
+Removing intermediate container 19f20a99d55d
+Step 3/9 : RUN useradd www &&     mkdir /app &&     mkdir /log &&     chown www /log
+ ---> Running in afc64c1470c2
+ ---> 0d2158f53585
+Removing intermediate container afc64c1470c2
+Step 4/9 : USER www
+ ---> Running in 0801158c9263
+ ---> 595fe5b905ea
+Removing intermediate container 0801158c9263
+Step 5/9 : VOLUME /log
+ ---> Running in 72d54241ba08
+ ---> 79886db32d00
+Removing intermediate container 72d54241ba08
+Step 6/9 : WORKDIR /app
+ ---> b2f0c1745a8e
+Removing intermediate container 7f92cded8936
+Step 7/9 : EXPOSE 8000
+ ---> Running in a01b055a2a9f
+ ---> 850f578b81c0
+Removing intermediate container a01b055a2a9f
+Step 8/9 : ENTRYPOINT /usr/local/bin/python
+ ---> Running in 5c2df11f744a
+ ---> 57bf5eacca97
+Removing intermediate container 5c2df11f744a
+Step 9/9 : CMD run.py
+ ---> Running in 24edce41fbf9
+ ---> 252f2d553c1b
+Removing intermediate container 24edce41fbf9
+Successfully built 252f2d553c1b
+[root@josemalcher-net 4-9-Instrucoes-com-configuracao-para-execucao-do-container] # docker container run -it -v $(pwd):/app:Z -p 8080:8000 --name python-server ex-build-dev
+inicializando...
+escutando a porta: 8000
+usuário: www
+
+# docker container run -it --volumes-from=python-server debian cat /log/http-server.log
+2019-05-26 14:22:40,554 - INFO - inicializando...
+2019-05-26 14:22:40,554 - INFO - escutando a porta: 8000
+2019-05-26 14:22:40,555 - INFO - usuário: www
+2019-05-26 14:23:10,754 - INFO - 172.17.0.1 - - [26/May/2019 14:23:10] "GET / HTTP/1.1" 200 -
+
+```
+
+Neste exemplo temos um pequeno servidor web atendendo na porta 8000 e exposta via instrução EXPOSE.
+
+Também temos o uso do ENTRYPOINT e CMD definindo exatamente que processo será executado ao subir o container, podemos notar que o container consegue encontrar o run.py, por conta da instrução WORKDIR que define o diretório aonde o processo principal será executado.
+
+Ao executar o container, uma das informações colocados no log (stdout e arquivo em disco) é o usuário corrente, e podemos notar que o processo não está rodando como root e sim www, conforme foi definido pela instrução USER.
+
+Por último temos o comando VOLUME que instrui o docker a expor o diretório /log como um volume, que pode ser facilmente mapeado por outro container. Podemos verificar isto seguindo os seguintes passos:
+- Construir a imagem e executar o container: run.sh
+- Acessar a URL http://localhost:8000 via browser
+- Verificar o log gerado na saída do container criado
+- Criar e rodar um segundo container mapeando os volumes do primeiro e checar o arquivo de log: docker run -it --volumes-from=<container criado> debian cat /log/http-server.log
+- Importante substituir a referência do volumes_from pelo hash do primeiro container criado
+- O resultado do cat será o mesmo log já gerado pelo primeiro container
+
 
 [Voltar ao Índice](#indice)
 
