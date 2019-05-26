@@ -99,6 +99,17 @@ O principal é o AUFS, que armazena os dados em camadas sobrepostas, e somente a
 
 #### 1.5. Arquitetura
 
+De maneira simplificada podemos dizer que o uso mais básico do Docker consiste em:
+- Ter o serviço Docker Engine rodando
+- Ter acesso a API Rest do Docker Engine, normalmente através do Docker Client
+- Baixar uma imagem do Docker Registry, normalmente do registry público oficial: https://hub.docker.com
+- Instanciar um container a partir da imagem baixada
+
+![](img/1-5-Arquitetura.png)
+
+Figura 2. Arquitetura do Docker
+
+
 #### 1.6. Crescimento do Docker
 
 
