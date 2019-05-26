@@ -207,6 +207,132 @@ docker exec
 
 #### 3.4. Modo interativo
 
+Podemos usar containers em modo interativo, isto é extremamente útil para processos experimentais, estudo dinâmico de ferramentas e de desenvolvimento.
+
+Exemplos de Uso
+- Avaliação do comportamento ou sintaxe de uma versão específica de linguagem.
+- Execução temporária de uma distribuição linux diferente
+- Execução manual de um script numa versão diferente de um interpretador que não a instalada no host.
+
+Principais opções do Docker para este fim
+- docker container run -it
+- docker container start -ai
+- docker container exec -t
+
+Exercício 2 - Ferramentas diferentes
+
+```
+# bash --version
+GNU bash, versão 5.0.7(1)-release (x86_64-redhat-linux-gnu)
+Copyright (C) 2019 Free Software Foundation, Inc.
+Licença GPLv3+: GNU GPL versão 3 ou posterior <http://gnu.org/licenses/gpl.html>.
+
+Este é um software livre; você é livre para alterar e redistribuí-lo.
+Há NENHUMA GARANTIA, na extensão permitida pela lei.
+
+
+# docker container run debian bash --version
+Unable to find image 'debian:latest' locally
+Trying to pull repository docker.io/library/debian ... 
+sha256:75f7d0590b45561bfa443abad0b3e0f86e2811b1fc176f786cd30eb078d1846f: Pulling from docker.io/library/debian
+c5e155d5a1d1: Pull complete 
+Digest: sha256:75f7d0590b45561bfa443abad0b3e0f86e2811b1fc176f786cd30eb078d1846f
+Status: Downloaded newer image for docker.io/debian:latest
+GNU bash, version 4.4.12(1)-release (x86_64-pc-linux-gnu)
+Copyright (C) 2016 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+
+This is free software; you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+```
+
+Confirmar que o conjunto de ferramentas disponíveis em um container são diferentes das disponíveis no host.
+
+**Exercício 3 - run cria sempre novos containers**
+
+```
+#  docker container run -it debian bash
+root@24ec893de712:/# touch /curso-docker.txt
+root@24ec893de712:/# exit
+exit
+
+# docker container run -it debian bash
+root@fc8c3355fa81:/# ls
+
+root@fc8c3355fa81:/# ls /curso-docker.txt
+ls: cannot access '/curso-docker.txt': No such file or directory
+
+```
+
+Demonstrar que o run sempre irá instanciar um novo container.
+Como vimos em Docker File Systems, o container e a imagem são armazenados em camadas, o processo de instanciar um container basicamente cria uma nova camada sobre a imagem existente, para que nessa camada as alterações sejam aplicadas.
+
+Assim sendo o consumo de espaço em disco para instanciar novos containers é relativamente muito baixo.
+
+**Exercício 4 - Containers devem ter nomes únicos**
+
+```
+# docker container run --name mydeb -it debian bash
+root@dbfa23d826d1:/# exit
+exit
+
+# docker container run --name mydeb -it debian bash
+/usr/bin/docker-current: Error response from daemon: Conflict. The container name "/mydeb" is already in use by container dbfa23d826d1271ae33c91fe5abfdd4235dbf50869e84338c56e6ae3d9680e66. You have to remove (or rename) that container to be able to reuse that name..
+See '/usr/bin/docker-current run --help'.
+
+```
+
+**Exercício 5 - Reutilizar containers**
+
+```
+# docker container start -ai mydeb
+root@dbfa23d826d1:/# ls   
+bin  boot  dev	etc  home  lib	lib64  media  mnt  opt	proc  root  run  sbin  srv  sys  tmp  usr  var
+root@dbfa23d826d1:/# touch /curso-docker.txt
+root@dbfa23d826d1:/# ls
+bin  boot  curso-docker.txt  dev  etc  home  lib  lib64  media	mnt  opt  proc	root  run  sbin  srv  sys  tmp	usr  var
+root@dbfa23d826d1:/# exit
+exit
+
+# docker container start -ai mydeb
+root@dbfa23d826d1:/# ls /curso-docker.txt 
+/curso-docker.txt
+root@dbfa23d826d1:/# exit
+exit
+
+```
+
+Demonstrar o uso do start em modo interativo, reutilizando um container previamente criado, além de confirmar que o mesmo consegue reter modificações em seu file system.
+
+**Remover depois que executar (não salav na lista de containers) -> --rm**
+
+```
+# docker container ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                      PORTS               NAMES
+dbfa23d826d1        debian              "bash"              5 minutes ago       Exited (0) 2 minutes ago                        mydeb
+fc8c3355fa81        debian              "bash"              8 minutes ago       Exited (2) 6 minutes ago                        gallant_mayer
+24ec893de712        debian              "bash"              8 minutes ago       Exited (0) 8 minutes ago                        gallant_stallman
+24fd2d69e6b0        debian              "bash --version"    16 minutes ago      Exited (0) 16 minutes ago                       naughty_curie
+
+# docker container run --rm debian bash --version
+GNU bash, version 4.4.12(1)-release (x86_64-pc-linux-gnu)
+Copyright (C) 2016 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+
+This is free software; you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+# docker container ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                         PORTS               NAMES
+dbfa23d826d1        debian              "bash"              6 minutes ago       Exited (0) 3 minutes ago                           mydeb
+fc8c3355fa81        debian              "bash"              8 minutes ago       Exited (2) 6 minutes ago                           gallant_mayer
+24ec893de712        debian              "bash"              8 minutes ago       Exited (0) 8 minutes ago                           gallant_stallman
+24fd2d69e6b0        debian              "bash --version"    17 minutes ago      Exited (0) 17 minutes ago                          naughty_curie
+
+
+```
+
 #### 3.5. Cego, surdo e mudo, só que não !
 
 #### 3.5.1. Mapeamento de portas
