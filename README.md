@@ -125,7 +125,11 @@ Nestes 4 anos ele tem se tornado cada vez mais popular e uma solução real para
 
 ## <a name="parte3"> Seção: 3 - Instalação (4)</a>
 
+#### 2.1. Docker Engine e Docker Machine
 
+- Instalação (Linux, Microsoft Windows e MacOS)
+- Uso do Docker Machine
+- Uso do Docker na nuvem, Amazon, possivelmente outros
 
 [Voltar ao Índice](#indice)
 
