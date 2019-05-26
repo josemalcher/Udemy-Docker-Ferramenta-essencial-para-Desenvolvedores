@@ -443,6 +443,19 @@ Reiniciar, parar e iniciar
 
 #### 3.7. Manipulação de containers em modo daemon
 
+Existem diversos comandos que nos ajuda a acompanhar a execução dos containers, entre eles:
+- docker container ls
+- docker container ls -a
+- docker container inspect
+- docker container exec
+- docker container logs
+
+Vários comandos Docker possuem aliases, por exemplo o container ls tem os seguintes apelidos:
+- docker container list
+- docker container ps
+- docker ps (antiga sintaxe)
+
+
 #### 3.8. Nova sintaxe do Docker Client
 
 [Voltar ao Índice](#indice)
