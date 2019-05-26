@@ -479,6 +479,37 @@ Agora que já vimos diversos comandos, incluindo tanto a sintaxe nova quanto a v
 
 ## <a name="parte5"> Seção: 5 - Deixando de Ser Apenas um Usuário (11)</a>
 
+#### 4.1. Introdução
+
+Agora vamos ao conceitos necessários para deixar de apenas utilizar imagens prontas e começar a produzir nossas próprias imagens.
+
+Exemplos de uso
+- DevOps - Imagens para processos de integração contínua
+- Portabilidade - Imagens de aplicação para ser utilizada em todos os ambientes (staging, prodution, etc)
+- Desenvolvimento - Imagens que aproximam todos os devs do ambiente de produção e diminuem a curva de entrada de novos membros
+- Imagens customizadas a partir de imagens públicas
+
+#### 4.2. Diferenças entre container e imagem
+
+Utilizando uma analogia com OOP, podemos comparar um container a um objeto (instância), enquanto a imagem seria uma classe (modelo).
+
+Todos os subcomandos relativos ao container podem ser listados através do parâmetro --help, bem como imagens:
+- docker container --help
+- docker image --help
+
+#### 4.3. Entendendo melhor as imagens
+
+#### 4.4. Comandos básicos no gerenciamento de imagens
+
+#### 4.5. Docker Hub × Docker Registry
+
+#### 4.6. Construção de uma imagem
+
+#### 4.7. Instruções para a preparação da imagem
+
+#### 4.8. Instruções para povoamento da imagem
+
+#### 4.9. Instruções com configuração para execução do container
 
 
 [Voltar ao Índice](#indice)
