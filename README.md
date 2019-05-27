@@ -893,6 +893,26 @@ Password:
 
 ## <a name="parte6"> Seção: 6 - Redes (4)</a>
 
+#### 6.1. Visão Geral e Tipos de Redes (somente vídeo)
+
+![](img/5-1-Introducao.png)
+![](img/5-1-Introducao_2.png)
+
+```
+ # docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+c2c092495d0a        bridge              bridge              local
+487332528d4f        host                host                local
+9847792b86b3        none                null                local
+
+```
+
+#### 6.2. Rede Tipo None  (Sem Rede)
+
+#### 6.3. Rede Tipo Bridge
+
+#### 6.4. Rede Tipo Host
+
 
 
 [Voltar ao Índice](#indice)
