@@ -1058,13 +1058,13 @@ NETWORK ID          NAME                DRIVER              SCOPE
 3981e0022475        bridge              bridge              local
 487332528d4f        host                host                local
 9847792b86b3        none                null                local
-eb6c477e6bcf        rede_nova           bridge              local
+xxxxxxxxxxxxx        rede_nova           bridge              local
 
 # docker network inspect rede_nova
 [
     {
         "Name": "rede_nova",
-        "Id": "eb6c477e6bcfe08741c0b77f6df5a9e6003c24f726561731d59be679c79e00a3",
+        "Id": "xxxxxxxxxxxxxe08741c0b77f6df5a9e6003c24f726561731d59be679c79e00a3",
         "Created": "2019-05-27T22:21:11.636069348-03:00",
         "Scope": "local",
         "Driver": "bridge",
@@ -1190,7 +1190,127 @@ lo        Link encap:Local Loopback
 
 #### 6.4. Rede Tipo Host
 
+Modo mais inseguro.
 
+```
+# ifconfig
+br-xxxxxxxxxxxxx: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 172.18.0.1  netmask 255.255.0.0  broadcast 0.0.0.0
+        ether XX:4X:X7:X8:ac:7X  txqueuelen 0  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+docker0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 172.17.0.1  netmask 255.255.0.0  broadcast 0.0.0.0
+        ether XX:4X:X7:X8:ac:7X  txqueuelen 0  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+enp1s0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        ether XX:4X:X7:X8:ac:7X  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueudelen 1000  (Loopback Local)
+        RX packets 936  bytes 82309 (80.3 KiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 936  bytes 82309 (80.3 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+virbr0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        inet 192.168.122.1  netmask 255.255.255.0  broadcast 192.168.122.255
+        ether XX:4X:X7:X8:ac:7X  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+wlp0s29u1u3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.0.102  netmask 255.255.255.0  broadcast 192.168.0.255
+        inet6 fxx0::xx8f:fxx4:bxxd:8f96  prefixlen 64  scopeid 0x20<link>
+        ether XX:4X:X7:X8:ac:7X txqueuelen 1000  (Ethernet)
+        RX packets 1026597  bytes 1437469887 (1.3 GiB)
+        RX errors 0  dropped 54  overruns 0  frame 0
+        TX packets 570844  bytes 71806063 (68.4 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+wlp2s0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
+        ether XX:4X:X7:X8:ac:7X  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+# docker container run -d --name container04 --net host alpine sleep 1000
+b22ddqdqwdqwdqdw6f99ce78a997f8e17eef8e8d9e0645a307c481ef199183e8fd4155788490b
+
+# docker container exec -it container04 ifconfig
+br-xxxxxxxxxxxxx Link encap:Ethernet  HWaddr XX:4X:X7:X8:ac:7X  
+          inet addr:172.18.0.1  Bcast:0.0.0.0  Mask:255.255.0.0
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+docker0   Link encap:Ethernet  HWaddr XX:4X:X7:X8:ac:7X  
+          inet addr:172.17.0.1  Bcast:0.0.0.0  Mask:255.255.0.0
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+enp1s0    Link encap:Ethernet  HWaddr XX:4X:X7:X8:ac:7X  
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:967 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:967 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:85037 (83.0 KiB)  TX bytes:85037 (83.0 KiB)
+
+virbr0    Link encap:Ethernet  HWaddr XX:4X:X7:X8:ac:7X  
+          inet addr:192.168.122.1  Bcast:192.168.122.255  Mask:255.255.255.0
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+wlp0s29u1u3 Link encap:Ethernet  HWaddr XX:4X:X7:X8:ac:7X 
+          inet addr:192.168.0.102  Bcast:192.168.0.255  Mask:255.255.255.0
+          inet6 addr: dddd::2fff78f:xxxx:b35xxxd:8f96/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:1026697 errors:0 dropped:54 overruns:0 frame:0
+          TX packets:570926 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:1437499770 (1.3 GiB)  TX bytes:71820982 (68.4 MiB)
+
+wlp2s0    Link encap:Ethernet  HWaddr E6:41:85:80:07:77  
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+```
 
 [Voltar ao Índice](#indice)
 
