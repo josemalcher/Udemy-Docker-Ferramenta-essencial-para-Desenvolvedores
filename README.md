@@ -915,7 +915,7 @@ c2c092495d0a        bridge              bridge              local
  docker container run --rm alpine ash -c "ifconfig"
 eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:02  
           inet addr:172.17.0.2  Bcast:0.0.0.0  Mask:255.255.0.0
-          inet6 addr: fe80::42:acff:fe11:2/64 Scope:Link
+          inet6 addr: fe80::12:bcff:fe22:2/64 Scope:Link
           UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
           RX packets:6 errors:0 dropped:0 overruns:0 frame:0
           TX packets:1 errors:0 dropped:0 overruns:0 carrier:0
@@ -947,6 +947,246 @@ lo        Link encap:Local Loopback
 
 
 #### 6.3. Rede Tipo Bridge
+
+![](img/6-3-RedeTipoBridge.png)
+
+```
+ # docker network inspect bridge 
+[
+    {
+        "Name": "bridge",
+        "Id": "3981e00224758dfbf4dc3a6dwdwfw222e9848e5f8356e49726488e67a73bb8809",
+        "Created": "2019-05-27T20:28:30.062430241-03:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": null,
+            "Config": [
+                {
+                    "Subnet": "172.17.0.0/16", # <<<<---------------------------------------------------------------------------
+                    "Gateway": "172.17.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Containers": {},
+        "Options": {
+            "com.docker.network.bridge.default_bridge": "true",
+            "com.docker.network.bridge.enable_icc": "true",
+            "com.docker.network.bridge.enable_ip_masquerade": "true",
+            "com.docker.network.bridge.host_binding_ipv4": "0.0.0.0",
+            "com.docker.network.bridge.name": "docker0",
+            "com.docker.network.driver.mtu": "1500"
+        },
+        "Labels": {}
+    }
+]
+
+```
+
+```
+# docker container run -d --name container01 alpine sleep 1000
+74248bb3da74a30dfb029168979f4....
+
+# docker container exec -it container01 ifconfig
+eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:02  
+          inet addr:172.17.0.2  Bcast:0.0.0.0  Mask:255.255.0.0 # <<<<<<<<------------------------------------------------
+          inet6 addr: fe10::33:acfd:f211:4/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:52 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:6862 (6.7 KiB)  TX bytes:656 (656.0 B)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+
+# docker container run -d --name container02 alpine sleep 1000
+f9889c451a3e5b12618c9898b2144d05e3b36caa1966676f22ee869e43b9527f
+
+# docker container exec -it container02 ifconfig
+eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:03  
+          inet addr:172.17.0.3  Bcast:0.0.0.0  Mask:255.255.0.0 # <<<<<<<<------------------------------------------------
+          inet6 addr: fe80::42:acff:fe11:3/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:27 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:7 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:4032 (3.9 KiB)  TX bytes:586 (586.0 B)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+
+# docker container exec -it container01 ping 172.17.0.3
+PING 172.17.0.3 (172.17.0.3): 56 data bytes
+64 bytes from 172.17.0.3: seq=0 ttl=64 time=0.099 ms
+64 bytes from 172.17.0.3: seq=1 ttl=64 time=0.139 ms
+64 bytes from 172.17.0.3: seq=2 ttl=64 time=0.180 ms
+
+--- 172.17.0.3 ping statistics ---
+6 packets transmitted, 6 packets received, 0% packet loss
+round-trip min/avg/max = 0.099/0.167/0.317 ms
+
+
+```
+
+- Criando uma nova REDE
+
+```
+# docker network create --driver bridge rede_nova
+6df5a9e6003c24f726561731d59be679c79e00a3
+
+# docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+3981e0022475        bridge              bridge              local
+487332528d4f        host                host                local
+9847792b86b3        none                null                local
+eb6c477e6bcf        rede_nova           bridge              local
+
+# docker network inspect rede_nova
+[
+    {
+        "Name": "rede_nova",
+        "Id": "eb6c477e6bcfe08741c0b77f6df5a9e6003c24f726561731d59be679c79e00a3",
+        "Created": "2019-05-27T22:21:11.636069348-03:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.18.0.0/16", # <<<<<<<<------------------------------------------------
+                    "Gateway": "172.18.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Containers": {},
+        "Options": {},
+        "Labels": {}
+    }
+]
+
+
+# docker container run -d --name container03 --net rede_nova alpine sleep 1000
+9fd3dce1f69de616b88b76e136064231927250b7acbedf17045
+
+
+# docker container exec -it container03 ifconfig
+eth0      Link encap:Ethernet  HWaddr 02:42:AC:12:00:02  
+          inet addr:172.18.0.2  Bcast:0.0.0.0  Mask:255.255.0.0
+          inet6 addr: fe80::42:acff:fe12:2/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:94 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:9 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:11480 (11.2 KiB)  TX bytes:726 (726.0 B)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+
+
+# docker container exec -it container03 ping 172.17.0.3
+PING 172.17.0.3 (172.17.0.3): 56 data bytes
+^C
+--- 172.17.0.3 ping statistics ---
+12 packets transmitted, 0 packets received, 100% packet loss
+
+
+# docker network connect bridge container03
+
+
+# docker container exec -it container03 ping 172.17.0.3
+PING 172.17.0.3 (172.17.0.3): 56 data bytes
+64 bytes from 172.17.0.3: seq=0 ttl=64 time=0.098 ms
+64 bytes from 172.17.0.3: seq=1 ttl=64 time=0.222 ms
+64 bytes from 172.17.0.3: seq=2 ttl=64 time=0.189 ms
+^C
+--- 172.17.0.3 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 0.098/0.169/0.222 ms
+
+
+# docker container exec -it container03 ifconfig
+eth0      Link encap:Ethernet  HWaddr 02:42:AC:12:00:02  
+          inet addr:172.18.0.2  Bcast:0.0.0.0  Mask:255.255.0.0
+          inet6 addr: fe80::42:acff:fe12:2/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:139 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:24 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:15509 (15.1 KiB)  TX bytes:2084 (2.0 KiB)
+
+eth1      Link encap:Ethernet  HWaddr 02:42:AC:11:00:04  
+          inet addr:172.17.0.4  Bcast:0.0.0.0  Mask:255.255.0.0
+          inet6 addr: fe80::42:acff:fe11:4/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:44 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:14 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:5967 (5.8 KiB)  TX bytes:1104 (1.0 KiB)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+# docker network disconnect bridge container03
+
+# docker container exec -it container03 ifconfig
+eth0      Link encap:Ethernet  HWaddr 02:42:AC:12:00:02  
+          inet addr:172.18.0.2  Bcast:0.0.0.0  Mask:255.255.0.0
+          inet6 addr: fe80::42:acff:fe12:2/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:183 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:24 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:18125 (17.7 KiB)  TX bytes:2084 (2.0 KiB)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+
+```
+
+
 
 #### 6.4. Rede Tipo Host
 
