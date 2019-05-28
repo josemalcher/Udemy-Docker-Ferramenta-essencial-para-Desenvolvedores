@@ -1319,6 +1319,25 @@ wlp2s0    Link encap:Ethernet  HWaddr E6:41:85:80:07:77
 
 ## <a name="parte7"> Seção: 7 - Coordenando Múltiplos Containers (2)</a>
 
+#### 5.1. Introdução
+
+Como já foi discutido um bom container Docker roda apenas um serviço, tendo um único processo principal, aplicações em geral são compostos por diversos processos específicos, como por exemplo:
+- Banco de dados
+- Gerenciamento de filas
+- Servidor Web
+- Aplicação em si
+- Workers diversos
+
+Estes serviços devem rodar cada qual em seu container. Porém carrega-los um a um, não só é enfadonho como propenso a erros, sejam eles:
+- Sequência de inicialização
+- Esquecimento de um dos serviços
+- Parada e/ou reinicialização de um ou mais serviços
+
+Para sanar este problema temos a disposição o docker-compose.
+
+#### 5.2. Gerenciamento de micro service
+
+#### 5.3. Docker compose
 
 
 [Voltar ao Índice](#indice)
