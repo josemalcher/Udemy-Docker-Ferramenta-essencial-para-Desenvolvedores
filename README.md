@@ -1337,7 +1337,40 @@ Para sanar este problema temos a disposição o docker-compose.
 
 #### 5.2. Gerenciamento de micro service
 
+Antes de mergulharmos nos exemplos e comandos do docker-compose, vamos entender melhor o que são microsserviços.
+
+**A definition of this new architectural term**
+
+The term "Microservice Architecture" has sprung up over the last few years to describe a particular way of designing software applications as suites of
+independently deployable services.
+While there is no precise definition of this architectural style, there are certain common characteristics around organization around business capability, automated deployment, intelligence in the endpoints, and decentralized control of languages and data.
+    — Martin Fowler, Microservices: https://martinfowler.com/articles/microservices.html
+
+Segundo Martin Fowler, microsserviços ou arquitetura de microsserviços é uma forma de design de aplicações de serviços independentes distribuíveis. Entre suas principais características:
+- Deploy automatizado
+- Inteligência no uso das API's
+- Controle descentralizado de dados
+- Independência de linguagens
+
 #### 5.3. Docker compose
+
+O Docker Compose é uma ferramenta para definir e gerenciar aplicações docker com múltiplos containers. Neste contexto os containers são chamados de serviços.
+
+
+## 5.8. Projeto Cadastro Simples
+
+#### 1. Estrutura Inicial
+
+- 5-8-Projeto-Cadastro-Simples/backend/package.json
+
+#### 2. Configurando Ambiente com Compose
+
+
+#### 3. Finalizando o Cadastro
+
+
+
+
 
 
 [Voltar ao Índice](#indice)
