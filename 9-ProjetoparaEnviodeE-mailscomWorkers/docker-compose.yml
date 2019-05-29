@@ -10,3 +10,10 @@ services:
       #Scripts
       - ./scripts:/scripts:Z
       - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql:Z
+  frontend:
+    image: nginx:1.13
+    volumes:
+      # Site
+      - ./web:/usr/share/nginx/html/:Z
+    ports:
+      - 8080:80
