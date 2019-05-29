@@ -1406,6 +1406,36 @@ Componentes
 
 #### 9.2. Banco de dados
 
+```
+# docker-compose up -d
+Starting 9-projetoparaenviodee-mailscomworkers_db_1 ... done
+
+
+# docker-compose ps
+                   Name                                 Command              State    Ports  
+---------------------------------------------------------------------------------------------
+9-projetoparaenviodee-mailscomworkers_db_1   docker-entrypoint.sh postgres   Up      5432/tcp
+
+
+# docker-compose exec db psql -U postgres -c '\l'
+                                 List of databases
+   Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges   
+-----------+----------+----------+------------+------------+-----------------------
+ postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
+ template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+(3 rows)
+
+
+# docker-compose down
+Stopping 9-projetoparaenviodee-mailscomworkers_db_1 ... done
+Removing 9-projetoparaenviodee-mailscomworkers_db_1 ... done
+Removing network 9-projetoparaenviodee-mailscomworkers_default
+
+```
+
 #### 9.3. Volumes
 
 #### 9.4. Front-end
