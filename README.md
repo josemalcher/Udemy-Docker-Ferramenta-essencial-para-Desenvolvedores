@@ -1438,6 +1438,35 @@ Removing network 9-projetoparaenviodee-mailscomworkers_default
 
 #### 9.3. Volumes
 
+```
+# docker-compose ps
+Name   Command   State   Ports
+------------------------------
+
+# docker-compose up -d
+Creating network "9-projetoparaenviodee-mailscomworkers_default" with the default driver
+Creating 9-projetoparaenviodee-mailscomworkers_db_1 ... done
+
+# docker-compose ps
+                   Name                                 Command              State    Ports  
+---------------------------------------------------------------------------------------------
+9-projetoparaenviodee-mailscomworkers_db_1   docker-entrypoint.sh postgres   Up      5432/tcp
+
+# docker-compose exec db psql -U postgres -f scripts/check.sql
+                                 List of databases
+   Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges   
+-----------+----------+----------+------------+------------+-----------------------
+ postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
+ template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+ template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
+           |          |          |            |            | postgres=CTc/postgres
+(3 rows)
+
+psql:scripts/check.sql:2: \connect: FATAL:  database "email_sender" does not exist
+
+```
+
 #### 9.4. Front-end
 
 #### 9.5. Filas
