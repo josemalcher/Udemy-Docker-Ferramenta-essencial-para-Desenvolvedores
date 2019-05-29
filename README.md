@@ -1357,7 +1357,13 @@ Segundo Martin Fowler, microsserviços ou arquitetura de microsserviços é uma 
 O Docker Compose é uma ferramenta para definir e gerenciar aplicações docker com múltiplos containers. Neste contexto os containers são chamados de serviços.
 
 
-## 5.8. Projeto Cadastro Simples
+[Voltar ao Índice](#indice)
+
+---
+
+
+## <a name="parte8"> Seção: 8 - Projeto Cadastro Simples (3)</a>
+
 
 #### 1. Estrutura Inicial
 
@@ -1377,16 +1383,6 @@ Recreating 5-8-projeto-cadastro-simples_backend_1  ... done
 ```
 
 #### 3. Finalizando o Cadastro
-
-
-
-
-[Voltar ao Índice](#indice)
-
----
-
-
-## <a name="parte8"> Seção: 8 - Projeto Cadastro Simples (3)</a>
 
 
 
