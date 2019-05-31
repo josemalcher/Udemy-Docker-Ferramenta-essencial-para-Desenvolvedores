@@ -1496,6 +1496,27 @@ db_1        | 2019-05-29T13:31:55.412836000Z LOG:  autovacuum launcher started
 
 #### 9.5. Filas
 
+```
+$ docker-compose ps
+Name   Command   State   Ports
+------------------------------
+
+# docker-compose up -d
+Creating network "9-projetoparaenviodee-mailscomworkers_default" with the default driver
+Creating 9-projetoparaenviodee-mailscomworkers_app_1      ... done
+Creating 9-projetoparaenviodee-mailscomworkers_db_1       ... done
+Creating 9-projetoparaenviodee-mailscomworkers_frontend_1 ... done
+
+# docker-compose logs -f -t
+Attaching to 9-projetoparaenviodee-mailscomworkers_frontend_1, 9-projetoparaenviodee-mailscomworkers_app_1, 9-projetoparaenviodee-mailscomworkers_db_1
+db_1        | 2019-05-31T00:42:06.363286000Z LOG:  database system was shut down at 2019-05-29 13:44:49 UTC
+db_1        | 2019-05-31T00:42:06.573055000Z LOG:  MultiXact member wraparound protections are now enabled
+db_1        | 2019-05-31T00:42:06.887140000Z LOG:  autovacuum launcher started
+db_1        | 2019-05-31T00:42:06.887370000Z LOG:  database system is ready to accept connections
+app_1       | 2019-05-31T00:42:09.632657000Z Collecting bottle==0.12.13
+
+```
+
 #### 9.6. Proxy reverso
 
 #### 9.7. Redes
