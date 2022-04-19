@@ -138,6 +138,8 @@ Nestes 4 anos ele tem se tornado cada vez mais popular e uma solução real para
 
 ## <a name="parte4"> Seção: 4 - Uso Básico do Docker (14)</a>
 
+- [RESUMO DOS VIDEOS](README_ResumoVideo.md)
+
 #### 3.1. Introdução ao Docker Client
 
 Conforme vimos em Arquitetura, o Docker Engine expõe uma API Rest que pode ser consumida pelas mais diversas ferramentas. A ferramenta inicial fornecida com a própria engine é o Docker Client, utilitário de linha de comando.
