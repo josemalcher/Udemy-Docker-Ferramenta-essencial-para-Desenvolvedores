@@ -111,7 +111,40 @@ bbf2781e1bef   debian        "-it"              About a minute ago   Created    
 
 ### 24 Containers devem ter nomes únicos
 
+```bash
+$ docker container run --name mydeb -it debian bash
+root@667aef1d7eca:/# ls
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@667aef1d7eca:/# exit
+exit
+
+$ docker container run --name mydeb -it debian bash
+docker: Error response from daemon: Conflict. The container name "/mydeb" is already in use by container "667aef1d7eca06d5abfa6". 
+You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
+```
+
+
 ### 25 Reutilizar containers
+
+```bash
+$ docker container ls -a
+CONTAINER ID   IMAGE         COMMAND            CREATED          STATUS                      PORTS     NAMES
+667aef1d7eca   debian        "bash"             2 minutes ago    Exited (0) 2 minutes ago              mydeb
+8003fec14def   debian        "bash --version"   14 minutes ago   Exited (0) 14 minutes ago             frosty_goldberg
+151b88e88997   hello-world   "/hello"           18 minutes ago   Exited (0) 18 minutes ago             focused_yonath
+
+$ docker container start -ai mydeb
+root@667aef1d7eca:/# touch /curso-docker.txt
+root@667aef1d7eca:/# ls
+bin  boot  curso-docker.txt  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+
+$ docker container start -ai mydeb
+root@667aef1d7eca:/# ls
+bin  boot  curso-docker.txt  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@667aef1d7eca:/#
+
+```
 
 ### 26 Cego, surdo e mudo, só que não!
 

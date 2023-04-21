@@ -253,7 +253,7 @@ Confirmar que o conjunto de ferramentas disponíveis em um container são difere
 
 **Exercício 3 - run cria sempre novos containers**
 
-```
+```bash
 #  docker container run -it debian bash
 root@24ec893de712:/# touch /curso-docker.txt
 root@24ec893de712:/# exit
@@ -261,7 +261,6 @@ exit
 
 # docker container run -it debian bash
 root@fc8c3355fa81:/# ls
-
 root@fc8c3355fa81:/# ls /curso-docker.txt
 ls: cannot access '/curso-docker.txt': No such file or directory
 
