@@ -1,4 +1,4 @@
-FROM nginx:1.13
+FROM nginx:latest
 
 LABEL maintainer 'Juracy Filho <juracy at gmail.com>'
 

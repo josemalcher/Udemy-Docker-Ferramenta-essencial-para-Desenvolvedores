@@ -152,6 +152,12 @@ root@667aef1d7eca:/#
 
 ### 28 Mapear portas dos containers
 
+```bash
+$ docker container run -p 8080:80 nginx
+Unable to find image 'nginx:latest' locally
+latest: Pulling from library/nginx
+```
+
 ### 29 Aviso sobre o comando pwd
 
 ### 30 Mapear diretórios para o container

@@ -254,12 +254,12 @@ Confirmar que o conjunto de ferramentas disponíveis em um container são difere
 **Exercício 3 - run cria sempre novos containers**
 
 ```bash
-#  docker container run -it debian bash
+docker container run -it debian bash
 root@24ec893de712:/# touch /curso-docker.txt
 root@24ec893de712:/# exit
 exit
 
-# docker container run -it debian bash
+docker container run -it debian bash
 root@fc8c3355fa81:/# ls
 root@fc8c3355fa81:/# ls /curso-docker.txt
 ls: cannot access '/curso-docker.txt': No such file or directory
@@ -348,8 +348,8 @@ Mas normalmente não queremos um isolamento total, e sim um isolamento controlad
 
 É possível mapear tanto portas TCP como UDP diretamente para o host, permitindo acesso através de toda a rede, não necessitando ser a mesma porta do container. O método mais comum para este fim é o parâmetro -p no comando docker container run, o -p recebe um parâmetro que normalmente é composto por dois números separados por : (dois pontos). O primeiro é no host e o segundo é no container
 
-```
-# docker container run -p 8080:80 nginx
+```bash
+docker container run -p 8080:80 nginx
 172.17.0.1 - - [26/May/2019:02:31:00 +0000] "GET / HTTP/1.1" 200 612 "-" "Mozilla/5.0 (X11; Fedora; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36" "-"
 2019/05/26 02:31:01 [error] 9#9: *1 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
 172.17.0.1 - - [26/May/2019:02:31:01 +0000] "GET /favicon.ico HTTP/1.1" 404 556 "http://localhost:8080/" "Mozilla/5.0 (X11; Fedora; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36" "-"
@@ -370,12 +370,12 @@ Mapeamento de portas
 
 **Exercício 7 - Mapear diretórios para o container**
 
-```
-# docker container run -p 8080:80 -v $(pwd)/html:/usr/share/nginx/html nginx
+```bash
+docker container run -p 8080:80 -v $(pwd)/html:/usr/share/nginx/html nginx
 2019/05/26 02:44:49 [error] 9#9: *2 "/usr/share/nginx/html/index.html" is forbidden (13: Permission denied), client: 172.17.0.1, server: localhost, request: "GET / HTTP/1.1", host: "localhost:8080"
 172.17.0.1 - - [26/May/2019:02:44:49 +0000] "GET / HTTP/1.1" 403 556 "-" "Mozilla/5.0 (X11; Fedora; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36" "-"
 
-# docker container run -p 8080:80 -v $(pwd)/html:/usr/share/nginx/html:Z nginx
+docker container run -p 8080:80 -v $(pwd)/html:/usr/share/nginx/html:Z nginx
 172.17.0.1 - - [26/May/2019:02:46:37 +0000] "GET / HTTP/1.1" 200 287 "-" "Mozilla/5.0 (X11; Fedora; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36" "-"
 
 ```
@@ -406,7 +406,7 @@ Para entender melhor estes containers precisaremos conhecer um novo comando: doc
 **Exercício 8 - Rodar um servidor web em background**
 
 ```
-# docker container run -d --name ex-daemon-basic -p 8080:80 -v $(pwd)/html:/usr/share/nginx/html:Z nginx
+# docker container run -d --name ex-daemon-basic -p 8080:80 -v $(pwd)/html:/usr/share/nginx/html nginx
 36ca7752d1a28148a3ae8be8aa246b40d3223214123123123123121230ff1450fc17
 # 
 
@@ -528,7 +528,7 @@ Tags do redis
 
 fonte: https://hub.docker.com/_/redis/
 
-```
+```bash
 # docker image pull redis:latest
 Trying to pull repository docker.io/library/redis ... 
 sha256:e549a30b3c31e6305b973e0d9113a3d38d60566708137af9ed7cbdce5650c5cc: Pulling from docker.io/library/redis
@@ -608,8 +608,8 @@ Processo para gerar uma nova imagem a partir de um arquivo de instruções. O co
 **Dockerfile**  
 Nome default para o arquivo com instruções para o build de imagens Docker. Documentação do Dockerfile — https://docs.docker.com/engine/reference/builder
 
-```
-# docker image build -t ex-simple-build .
+```bash
+$ docker image build -t ex-simple-build .
 Sending build context to Docker daemon 2.048 kB
 Step 1/2 : FROM nginx:1.13
 Trying to pull repository docker.io/library/nginx ... 
@@ -626,11 +626,11 @@ Step 2/2 : RUN echo '<h1>Hello World !</h1>' > /usr/share/nginx/html/index.html
 Removing intermediate container 65d04840a156
 Successfully built 74f08697b0a1
 
-# docker image ls
+$ docker image ls
 REPOSITORY                           TAG                 IMAGE ID            CREATED             SIZE
 ex-simple-build                      latest              74f08697b0a1        17 seconds ago      109 MB
 
-# docker container run -p 8080:80 ex-simple-build
+$ docker container run -p 80:80 ex-simple-build
 172.17.0.1 - - [26/May/2019:11:55:31 +0000] "GET / HTTP/1.1" 200 23 "-" "Mozilla/5.0 (X11; Fedora; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36" "-"
 
 ```
@@ -653,7 +653,7 @@ Especifica variáveis de ambiente a serem utilizadas durante o build.
 **ARG**  
 Define argumentos que poderão ser informados ao build através do parâmetro --build-arg.
 
-```
+```docker
 FROM debian
 LABEL maintainer 'José Malcher JR. <contato@josmealcher.net>'
 
@@ -662,8 +662,8 @@ ARG S3_BUCKET=files
 ENV S3_BUCKET=${S3_BUCKET}
 ```
 
-```
-# docker image build -t ex-build-args .
+```bash
+$ docker image build -t ex-build-args .
 Sending build context to Docker daemon 2.048 kB
 Step 1/4 : FROM debian
  ---> 8d31923452f8
@@ -681,18 +681,18 @@ Step 4/4 : ENV S3_BUCKET ${S3_BUCKET}
 Removing intermediate container 6d5d5cfd0a7f
 Successfully built 15b5f8cb0069
 
-# docker image ls
+$ docker image ls
 REPOSITORY                           TAG                 IMAGE ID            CREATED             SIZE
 ex-build-args                        latest              15b5f8cb0069        14 seconds ago      101 MB
 ex-simple-build                      latest              74f08697b0a1        12 minutes ago      109 MB
 
-# docker container run ex-
+$ docker container run ex-
 ex-build-args           ex-build-args:latest    ex-simple-build         ex-simple-build:latest  
 
-# docker container run ex-build-args bash -c 'echo $S3_BUCKET'
+$ docker container run ex-build-args bash -c 'echo $S3_BUCKET'
 files
 
-# docker image build --build-arg S3_BUCKET=myapp -t ex-build-arg .
+$ docker image build --build-arg S3_BUCKET=myapp -t ex-build-arg .
 Sending build context to Docker daemon 2.048 kB
 Step 1/4 : FROM debian
  ---> 8d31923452f8
@@ -708,11 +708,11 @@ Step 4/4 : ENV S3_BUCKET ${S3_BUCKET}
 Removing intermediate container 0f2ada1bff1d
 Successfully built 39864b012f1a
 
-# docker container run ex-build-arg bash -c 'echo $S3_BUCKET'
+$ docker container run ex-build-arg bash -c 'echo $S3_BUCKET'
 myapp
 
 
-# docker image inspect --format="{{index .Config.Labels \"maintainer\"}}" ex-build-args
+$ docker image inspect --format="{{index .Config.Labels \"maintainer\"}}" ex-build-args
 José Malcher JR. <contato@josmealcher.net>
 
 ```
@@ -730,7 +730,7 @@ Executa ações/comandos durante o build dentro da imagem
 
 **Exercício 12 - Uso das instruções de povoamento**
 
-```
+```docker
 FROM nginx:1.13
 
 LABEL maintainer 'Juracy Filho <juracy at gmail.com>'
@@ -740,8 +740,8 @@ RUN echo '<h1>Sem conteúdo</h1>' > /usr/share/nginx/html/conteudo.html
 COPY *.html /usr/share/nginx/html/
 ```
 
-```
-# docker image build -t ex-build-copy .
+```bash
+$ docker image build -t ex-build-copy .
 Sending build context to Docker daemon 3.072 kB
 Step 1/4 : FROM nginx:1.13
  ---> ae513a47849c
@@ -758,7 +758,7 @@ Step 4/4 : COPY *.html /usr/share/nginx/html/
 Removing intermediate container 84db0a1f5fa5
 Successfully built 059bd79f28c5
 
-# docker container run -p 8080:80 ex-build-copy
+$ docker container run -p 8080:80 ex-build-copy
 
 ```
 
@@ -786,7 +786,7 @@ Instrui a execução do container a criar um volume para um diretório indicado 
 
 **Exercício 13 - Uso das instruções para execução do container**
 
-```
+```docker
 FROM python:3.6
 LABEL maintainer 'José Malcher JR. <contato@josemalcher.net>'
 
@@ -805,8 +805,8 @@ CMD ["run.py"]
 ```
 
 
-```
-# docker image build -t ex-build-dev .
+```bash
+$ docker image build -t ex-build-dev .
 Sending build context to Docker daemon 4.608 kB
 Step 1/9 : FROM python:3.6
  ---> 0668df180a32
@@ -842,12 +842,13 @@ Step 9/9 : CMD run.py
  ---> 252f2d553c1b
 Removing intermediate container 24edce41fbf9
 Successfully built 252f2d553c1b
-[root@josemalcher-net 4-9-Instrucoes-com-configuracao-para-execucao-do-container] # docker container run -it -v $(pwd):/app:Z -p 8080:8000 --name python-server ex-build-dev
+
+$ docker container run -it -v $(pwd):/app:Z -p 8080:8000 --name python-server ex-build-dev
 inicializando...
 escutando a porta: 8000
 usuário: www
 
-# docker container run -it --volumes-from=python-server debian cat /log/http-server.log
+$ docker container run -it --volumes-from=python-server debian cat /log/http-server.log
 2019-05-26 14:22:40,554 - INFO - inicializando...
 2019-05-26 14:22:40,554 - INFO - escutando a porta: 8000
 2019-05-26 14:22:40,555 - INFO - usuário: www
@@ -912,8 +913,8 @@ c2c092495d0a        bridge              bridge              local
 
 ![](img/6-2-RedeTipoNone.png)
 
-```
- docker container run --rm alpine ash -c "ifconfig"
+```bash
+$ docker container run --rm alpine ash -c "ifconfig"
 eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:02  
           inet addr:172.17.0.2  Bcast:0.0.0.0  Mask:255.255.0.0
           inet6 addr: fe80::12:bcff:fe22:2/64 Scope:Link
@@ -933,7 +934,7 @@ lo        Link encap:Local Loopback
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
 
-# docker container run --rm --net none  alpine ash -c "ifconfig"
+$ docker container run --rm --net none  alpine ash -c "ifconfig"
 lo        Link encap:Local Loopback  
           inet addr:127.0.0.1  Mask:255.0.0.0
           inet6 addr: ::1/128 Scope:Host
@@ -951,8 +952,8 @@ lo        Link encap:Local Loopback
 
 ![](img/6-3-RedeTipoBridge.png)
 
-```
- # docker network inspect bridge 
+```bash
+ $ docker network inspect bridge 
 [
     {
         "Name": "bridge",
@@ -988,11 +989,11 @@ lo        Link encap:Local Loopback
 
 ```
 
-```
-# docker container run -d --name container01 alpine sleep 1000
+```bash
+$ docker container run -d --name container01 alpine sleep 1000
 74248bb3da74a30dfb029168979f4....
 
-# docker container exec -it container01 ifconfig
+$ docker container exec -it container01 ifconfig
 eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:02  
           inet addr:172.17.0.2  Bcast:0.0.0.0  Mask:255.255.0.0 # <<<<<<<<------------------------------------------------
           inet6 addr: fe10::33:acfd:f211:4/64 Scope:Link
@@ -1012,10 +1013,10 @@ lo        Link encap:Local Loopback
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
 
-# docker container run -d --name container02 alpine sleep 1000
+$ docker container run -d --name container02 alpine sleep 1000
 f9889c451a3e5b12618c9898b2144d05e3b36caa1966676f22ee869e43b9527f
 
-# docker container exec -it container02 ifconfig
+$ docker container exec -it container02 ifconfig
 eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:03  
           inet addr:172.17.0.3  Bcast:0.0.0.0  Mask:255.255.0.0 # <<<<<<<<------------------------------------------------
           inet6 addr: fe80::42:acff:fe11:3/64 Scope:Link
@@ -1035,7 +1036,7 @@ lo        Link encap:Local Loopback
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
 
-# docker container exec -it container01 ping 172.17.0.3
+$ docker container exec -it container01 ping 172.17.0.3
 PING 172.17.0.3 (172.17.0.3): 56 data bytes
 64 bytes from 172.17.0.3: seq=0 ttl=64 time=0.099 ms
 64 bytes from 172.17.0.3: seq=1 ttl=64 time=0.139 ms
@@ -1050,18 +1051,18 @@ round-trip min/avg/max = 0.099/0.167/0.317 ms
 
 - Criando uma nova REDE
 
-```
-# docker network create --driver bridge rede_nova
+```bash
+$ docker network create --driver bridge rede_nova
 6df5a9e6003c24f726561731d59be679c79e00a3
 
-# docker network ls
+$ docker network ls
 NETWORK ID          NAME                DRIVER              SCOPE
 3981e0022475        bridge              bridge              local
 487332528d4f        host                host                local
 9847792b86b3        none                null                local
 xxxxxxxxxxxxx        rede_nova           bridge              local
 
-# docker network inspect rede_nova
+$ docker network inspect rede_nova
 [
     {
         "Name": "rede_nova",
@@ -1089,11 +1090,11 @@ xxxxxxxxxxxxx        rede_nova           bridge              local
 ]
 
 
-# docker container run -d --name container03 --net rede_nova alpine sleep 1000
+$ docker container run -d --name container03 --net rede_nova alpine sleep 1000
 9fd3dce1f69de616b88b76e136064231927250b7acbedf17045
 
 
-# docker container exec -it container03 ifconfig
+$ docker container exec -it container03 ifconfig
 eth0      Link encap:Ethernet  HWaddr 02:42:AC:12:00:02  
           inet addr:172.18.0.2  Bcast:0.0.0.0  Mask:255.255.0.0
           inet6 addr: fe80::42:acff:fe12:2/64 Scope:Link
@@ -1114,17 +1115,17 @@ lo        Link encap:Local Loopback
 
 
 
-# docker container exec -it container03 ping 172.17.0.3
+$ docker container exec -it container03 ping 172.17.0.3
 PING 172.17.0.3 (172.17.0.3): 56 data bytes
 ^C
 --- 172.17.0.3 ping statistics ---
 12 packets transmitted, 0 packets received, 100% packet loss
 
 
-# docker network connect bridge container03
+$ docker network connect bridge container03
 
 
-# docker container exec -it container03 ping 172.17.0.3
+$ docker container exec -it container03 ping 172.17.0.3
 PING 172.17.0.3 (172.17.0.3): 56 data bytes
 64 bytes from 172.17.0.3: seq=0 ttl=64 time=0.098 ms
 64 bytes from 172.17.0.3: seq=1 ttl=64 time=0.222 ms
@@ -1135,7 +1136,7 @@ PING 172.17.0.3 (172.17.0.3): 56 data bytes
 round-trip min/avg/max = 0.098/0.169/0.222 ms
 
 
-# docker container exec -it container03 ifconfig
+$ docker container exec -it container03 ifconfig
 eth0      Link encap:Ethernet  HWaddr 02:42:AC:12:00:02  
           inet addr:172.18.0.2  Bcast:0.0.0.0  Mask:255.255.0.0
           inet6 addr: fe80::42:acff:fe12:2/64 Scope:Link
@@ -1163,9 +1164,9 @@ lo        Link encap:Local Loopback
           collisions:0 txqueuelen:1000 
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 
-# docker network disconnect bridge container03
+$ docker network disconnect bridge container03
 
-# docker container exec -it container03 ifconfig
+$ docker container exec -it container03 ifconfig
 eth0      Link encap:Ethernet  HWaddr 02:42:AC:12:00:02  
           inet addr:172.18.0.2  Bcast:0.0.0.0  Mask:255.255.0.0
           inet6 addr: fe80::42:acff:fe12:2/64 Scope:Link
@@ -1193,8 +1194,8 @@ lo        Link encap:Local Loopback
 
 Modo mais inseguro.
 
-```
-# ifconfig
+```bash
+$ ifconfig
 br-xxxxxxxxxxxxx: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
         inet 172.18.0.1  netmask 255.255.0.0  broadcast 0.0.0.0
         ether XX:4X:X7:X8:ac:7X  txqueuelen 0  (Ethernet)
@@ -1251,10 +1252,10 @@ wlp2s0: flags=4099<UP,BROADCAST,MULTICAST>  mtu 1500
         TX packets 0  bytes 0 (0.0 B)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
-# docker container run -d --name container04 --net host alpine sleep 1000
+$ docker container run -d --name container04 --net host alpine sleep 1000
 b22ddqdqwdqwdqdw6f99ce78a997f8e17eef8e8d9e0645a307c481ef199183e8fd4155788490b
 
-# docker container exec -it container04 ifconfig
+$ docker container exec -it container04 ifconfig
 br-xxxxxxxxxxxxx Link encap:Ethernet  HWaddr XX:4X:X7:X8:ac:7X  
           inet addr:172.18.0.1  Bcast:0.0.0.0  Mask:255.255.0.0
           UP BROADCAST MULTICAST  MTU:1500  Metric:1
@@ -1372,11 +1373,11 @@ O Docker Compose é uma ferramenta para definir e gerenciar aplicações docker 
 
 #### 2. Configurando Ambiente com Compose
 
-```
-# ls
+```bash
+$ ls
 backend  docker-compose.yml  frontend
 
-# docker-compose up
+$ docker-compose up
 Recreating 5-8-projeto-cadastro-simples_frontend_1 ... done
 Starting 5-8-projeto-cadastro-simples_db_1         ... done
 Recreating 5-8-projeto-cadastro-simples_backend_1  ... done
