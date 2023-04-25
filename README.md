@@ -1408,18 +1408,18 @@ Componentes
 
 #### 9.2. Banco de dados
 
-```
-# docker-compose up -d
+```bash
+$ docker-compose up -d
 Starting 9-projetoparaenviodee-mailscomworkers_db_1 ... done
 
 
-# docker-compose ps
+$ docker-compose ps
                    Name                                 Command              State    Ports  
 ---------------------------------------------------------------------------------------------
 9-projetoparaenviodee-mailscomworkers_db_1   docker-entrypoint.sh postgres   Up      5432/tcp
 
 
-# docker-compose exec db psql -U postgres -c '\l'
+$ docker-compose exec db psql -U postgres -c '\l'
                                  List of databases
    Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges   
 -----------+----------+----------+------------+------------+-----------------------
@@ -1431,7 +1431,7 @@ Starting 9-projetoparaenviodee-mailscomworkers_db_1 ... done
 (3 rows)
 
 
-# docker-compose down
+$ docker-compose down
 Stopping 9-projetoparaenviodee-mailscomworkers_db_1 ... done
 Removing 9-projetoparaenviodee-mailscomworkers_db_1 ... done
 Removing network 9-projetoparaenviodee-mailscomworkers_default
@@ -1440,21 +1440,21 @@ Removing network 9-projetoparaenviodee-mailscomworkers_default
 
 #### 9.3. Volumes
 
-```
-# docker-compose ps
+```bash
+$ docker-compose ps
 Name   Command   State   Ports
 ------------------------------
 
-# docker-compose up -d
+$ docker-compose up -d
 Creating network "9-projetoparaenviodee-mailscomworkers_default" with the default driver
 Creating 9-projetoparaenviodee-mailscomworkers_db_1 ... done
 
-# docker-compose ps
+$ docker-compose ps
                    Name                                 Command              State    Ports  
 ---------------------------------------------------------------------------------------------
 9-projetoparaenviodee-mailscomworkers_db_1   docker-entrypoint.sh postgres   Up      5432/tcp
 
-# docker-compose exec db psql -U postgres -f scripts/check.sql
+$ docker-compose exec db psql -U postgres -f scripts/check.sql
                                  List of databases
    Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges   
 -----------+----------+----------+------------+------------+-----------------------
@@ -1473,17 +1473,17 @@ psql:scripts/check.sql:2: \connect: FATAL:  database "email_sender" does not exi
 
 - 9-ProjetoparaEnviodeE-mailscomWorkers/web
 
-```
+```bash
 docker-compose ps
 Name   Command   State   Ports
 ------------------------------
 
-# docker-compose up -d
+$ docker-compose up -d
 Creating network "9-projetoparaenviodee-mailscomworkers_default" with the default driver
 Creating 9-projetoparaenviodee-mailscomworkers_db_1       ... done
 Creating 9-projetoparaenviodee-mailscomworkers_frontend_1 ... done
 
-# docker-compose logs -f -t
+$ docker-compose logs -f -t
 Attaching to 9-projetoparaenviodee-mailscomworkers_frontend_1, 9-projetoparaenviodee-mailscomworkers_db_1
 frontend_1  | 2019-05-29T13:36:14.417795000Z 172.20.0.1 - - [29/May/2019:13:36:14 +0000] "GET / HTTP/1.1" 200 758 "-" "Mozilla/5.0 (X11; Fedora; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36" "-"
 frontend_1  | 2019-05-29T13:36:14.603548000Z 2019/05/29 13:36:14 [error] 8#8: *1 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.20.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
@@ -1498,18 +1498,18 @@ db_1        | 2019-05-29T13:31:55.412836000Z LOG:  autovacuum launcher started
 
 #### 9.5. Filas
 
-```
+```bash
 $ docker-compose ps
 Name   Command   State   Ports
 ------------------------------
 
-# docker-compose up -d
+$ docker-compose up -d
 Creating network "9-projetoparaenviodee-mailscomworkers_default" with the default driver
 Creating 9-projetoparaenviodee-mailscomworkers_app_1      ... done
 Creating 9-projetoparaenviodee-mailscomworkers_db_1       ... done
 Creating 9-projetoparaenviodee-mailscomworkers_frontend_1 ... done
 
-# docker-compose logs -f -t
+$ docker-compose logs -f -t
 Attaching to 9-projetoparaenviodee-mailscomworkers_frontend_1, 9-projetoparaenviodee-mailscomworkers_app_1, 9-projetoparaenviodee-mailscomworkers_db_1
 db_1        | 2019-05-31T00:42:06.363286000Z LOG:  database system was shut down at 2019-05-29 13:44:49 UTC
 db_1        | 2019-05-31T00:42:06.573055000Z LOG:  MultiXact member wraparound protections are now enabled
